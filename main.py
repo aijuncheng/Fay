@@ -36,10 +36,18 @@ if __name__ == '__main__':
     __clear_songs()
     config_util.load_config()
 
+    # 连接 ue4 人物模型
     ws_server = wsa_server.new_instance(port=10002)
     ws_server.start_server()
+
+    # 获取
     web_ws_server = wsa_server.new_web_instance(port=10003)
     web_ws_server.start_server()
+
+    # TODO 连接VtubeStudio  wsa_server 需要增加一类模型
+    web_ws_vts_server = wsa_server.new_web_instance(port=18001)
+    web_ws_vts_server.start_server()
+
 
     ali_nls.start()
     flask_server.start()

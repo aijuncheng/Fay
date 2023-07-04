@@ -520,6 +520,7 @@ class FeiFei:
                             util.log(1, "远程音频发送完成：{}".format(total))
                         except socket.error as serr:
                             util.log(1,"远程音频输入输出设备已经断开：{}".format(serr))
+                # TODO 添加 vts逻辑 配置文件增加配置，控制音频输出对象
 
 
                     
