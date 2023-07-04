@@ -11,6 +11,7 @@ from gui import flask_server
 from gui.window import MainWindow
 from utils import config_util
 from scheduler.thread_manager import MyThread
+import plugin.vtube_studio as vtube_studio
 
 
 def __clear_samples():
@@ -44,9 +45,9 @@ if __name__ == '__main__':
     web_ws_server = wsa_server.new_web_instance(port=10003)
     web_ws_server.start_server()
 
-    # TODO 连接VtubeStudio  wsa_server 需要增加一类模型
-    web_ws_vts_server = wsa_server.new_web_instance(port=18001)
-    web_ws_vts_server.start_server()
+    # 连接VtubeStudio
+    ws_vts_client = vtube_studio.new_instance(host="127.0.0.1", port=18001)
+    ws_vts_client.start_client()
 
 
     ali_nls.start()

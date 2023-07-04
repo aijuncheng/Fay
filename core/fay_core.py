@@ -26,6 +26,9 @@ from ai_module import chatgpt
 import pygame
 from utils import config_util as cfg
 
+# vts
+import plugin.vtube_studio as vtube_studio
+
 
 class FeiFei:
     def __init__(self):
@@ -502,6 +505,9 @@ class FeiFei:
             if audio_length <= config_util.config["interact"]["maxInteractTime"] or say_type == "script":
                 if config_util.config["interact"]["playSound"]: # 展板播放
                     self.__play_sound(file_url)
+                elif config_util.config["model_type"]:
+                     # 添加 vts人物模型处理逻辑
+                     vtube_studio.play_audio(file_url)
                 else:#发送音频给ue和socket
                     content = {'Topic': 'Unreal', 'Data': {'Key': 'audio', 'Value': os.path.abspath(file_url), 'Time': audio_length, 'Type': say_type}}
                     wsa_server.get_instance().add_cmd(content)
@@ -520,9 +526,6 @@ class FeiFei:
                             util.log(1, "远程音频发送完成：{}".format(total))
                         except socket.error as serr:
                             util.log(1,"远程音频输入输出设备已经断开：{}".format(serr))
-                # TODO 添加 vts逻辑 配置文件增加配置，控制音频输出对象
-
-
                     
                 wsa_server.get_web_instance().add_cmd({"panelMsg": self.a_msg})
                 time.sleep(audio_length + 0.5)
